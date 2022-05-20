@@ -2,6 +2,7 @@ import React from "react";
 
 import { Typography } from "@mui/material";
 import styled from "styled-components";
+import { Link, To } from "react-router-dom";
 
 const Container = styled.div`
   margin-top: 2rem;
@@ -24,15 +25,18 @@ const Container = styled.div`
 interface SidebarItemProps {
   icon: string;
   title: string;
+  to: To;
 }
 const SidebarItem = (props: SidebarItemProps) => {
   return (
-    <Container>
-      <img src={props.icon} width={25} height={25} />
-      <Typography variant="body1" style={{ marginLeft: 10, fontWeight: 500 }}>
-        {props.title}
-      </Typography>
-    </Container>
+    <Link to={props.to} style={{ color: "#000" }}>
+      <Container>
+        <img src={props.icon} width={25} height={25} />
+        <Typography variant="body1" style={{ marginLeft: 10, fontWeight: 500 }}>
+          {props.title}
+        </Typography>
+      </Container>
+    </Link>
   );
 };
 

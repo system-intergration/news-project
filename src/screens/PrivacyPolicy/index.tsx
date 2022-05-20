@@ -1,19 +1,17 @@
 import React from "react";
-import { Sidebar } from "../../components";
-import { Main } from "./components";
 import styled from "styled-components";
+import { Sidebar } from "../../components";
 
 const Container = styled.div`
   padding-top: 5rem;
 `;
-
-const HomePage = () => {
+const PrivacyPolicyPage = () => {
   return (
     <Container>
       <Sidebar />
-      <Main />
+      <div>PrivacyPolicyPage</div>
     </Container>
   );
 };
 
-export default HomePage;
+export default PrivacyPolicyPage;

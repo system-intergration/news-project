@@ -4,6 +4,10 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
+import { Button, Dropdown, Menu, Space } from "antd";
+import { FiSettings } from "react-icons/fi";
+import { BsPerson } from "react-icons/bs";
+import { BiLogOutCircle } from "react-icons/bi";
 
 import { SearchIcon, DropdownIcon } from "../../assets/icons";
 import {
@@ -13,13 +17,105 @@ import {
   UserAvatarContainer,
   RoundButton,
 } from "./style";
+import { useNavigate } from "react-router-dom";
+import { auth, signInWithGoogle } from "../../provider/firebase";
+import { useRecoilState } from "recoil";
+import { userState } from "../../recoil/users/state";
+import { FcGoogle } from "react-icons/fc";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useRecoilState(userState);
+
+  const menu = (
+    <Menu style={{ borderRadius: 10 }}>
+      <Menu.Item key={1}>
+        {user.uid.length === 0 ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginTop: 10,
+            }}
+            onClick={async () => {
+              let userInform = await signInWithGoogle();
+
+              setUser({
+                ...userInform,
+              });
+            }}
+          >
+            <FcGoogle />
+
+            <div style={{ marginLeft: 10 }}>Login With Google</div>
+          </div>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <div style={{ marginRight: 5 }}>{user.displayName}</div>
+            <BsPerson />
+          </div>
+        )}
+      </Menu.Item>
+      {user.uid.length !== 0 && (
+        <Menu.Item key={2}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+            onClick={() => {}}
+          >
+            <div>Setting</div>
+            <FiSettings />
+          </div>
+        </Menu.Item>
+      )}
+      {user.uid.length !== 0 && (
+        <Menu.Item key={3}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+            onClick={async () => {
+              await auth.signOut();
+
+              setUser({
+                uid: "",
+                displayName: "",
+                email: "",
+                phoneNumber: "",
+                photoURL: "",
+              });
+            }}
+          >
+            <div>Logout</div>
+            <BiLogOutCircle />
+          </div>
+        </Menu.Item>
+      )}
+    </Menu>
+  );
   return (
     <AppBar position="fixed" color="inherit">
       <Container>
         <Toolbar variant="dense">
-          <Typography variant="h6" color="inherit" component="div">
+          <Typography
+            variant="h6"
+            color="inherit"
+            component="div"
+            onClick={() => navigate("/")}
+            style={{ cursor: "pointer" }}
+          >
             News
           </Typography>
         </Toolbar>
@@ -34,17 +130,23 @@ const Navbar = () => {
           />
         </InputContainer>
         <RoundButton type="primary">Search</RoundButton>
-        <UserAvatarContainer>
-          <Avatar alt="Rose" src="src\assets\images\avatar.jpeg" />
-          <IconButton size="small">
-            <img
-              src={DropdownIcon}
-              alt={"dropdown-icon"}
-              height={15}
-              width={15}
-            />
-          </IconButton>
-        </UserAvatarContainer>
+        <Dropdown overlay={menu} placement="bottomRight">
+          <UserAvatarContainer>
+            {user.uid.length !== 0 ? (
+              <Avatar alt="Rose" src={user.photoURL} />
+            ) : (
+              <RoundButton type="primary">Login</RoundButton>
+            )}
+            <IconButton size="small">
+              <img
+                src={DropdownIcon}
+                alt={"dropdown-icon"}
+                height={15}
+                width={15}
+              />
+            </IconButton>
+          </UserAvatarContainer>
+        </Dropdown>
       </Container>
     </AppBar>
   );

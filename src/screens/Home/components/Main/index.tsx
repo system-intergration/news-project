@@ -1,17 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  Container,
-  Tag,
-  News,
-  ArticleContainer,
-  Title,
-  PublishedDate,
-  FavoriteButton,
-} from "./style";
+import { Container, Tag, News } from "./style";
 import { Typography, IconButton } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useFetchNewsList } from "../../../../hooks/news";
+import ArticleComp from "../../../../components/Article";
+import Loading from "../../../../components/Loading";
 
 const Main = () => {
+  const news = useFetchNewsList();
+
   const KEY_WORDS: string[] = [
     "Technology",
     "Cooking",
@@ -32,6 +30,10 @@ const Main = () => {
     "Stock",
   ];
 
+  if (news.isError) {
+    return <div>An error occurred</div>;
+  }
+
   return (
     <Container>
       <div className="tags-list">
@@ -45,26 +47,15 @@ const Main = () => {
       >
         Common articles
       </Typography>
-      <News>
-        {Array(20)
-          .fill(null)
-          .map((article, index) => (
-            <ArticleContainer key={index}>
-              <img src="src\assets\images\img-1.png"></img>
-              <div />
-              <Title variant="h5">
-                COVID-19: Breaking news, Logram are the best of using
-              </Title>
-              <PublishedDate>Mar 08, 2022</PublishedDate>
-              <FavoriteButton>
-                <img
-                  src="src\assets\icons\favorite.svg"
-                  alt="favorite-button"
-                />
-              </FavoriteButton>
-            </ArticleContainer>
+      {news.isLoading ? (
+        <Loading />
+      ) : (
+        <News>
+          {news.data!.results.map((article, index) => (
+            <ArticleComp article={article} key={index} />
           ))}
-      </News>
+        </News>
+      )}
     </Container>
   );
 };

@@ -8,6 +8,7 @@ import {
   NoteBookIcon,
 } from "../../assets/icons";
 import { SidebarItem } from "./components";
+import { Outlet, Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 16rem;
@@ -18,16 +19,16 @@ const Container = styled.div`
 const Sidebar = () => {
   return (
     <Container>
-      <SidebarItem icon={NewsIcon} title={"News"} />
-      <SidebarItem icon={FavoriteIcon} title={"Favorites"} />
+      <SidebarItem icon={NewsIcon} title={"News"} to={"/"} />
+      <SidebarItem icon={FavoriteIcon} title={"Favorites"} to={"/favorites"} />
       <Typography
         variant="h6"
         style={{ marginLeft: 10, marginBottom: 10, marginTop: 25 }}
       >
         Other
       </Typography>
-      <SidebarItem icon={SuitcaseIcon} title={"Privacy Policy"} />
-      <SidebarItem icon={NoteBookIcon} title={"Terms of use"} />
+      <SidebarItem icon={SuitcaseIcon} title={"Privacy Policy"} to={"/"} />
+      <SidebarItem icon={NoteBookIcon} title={"Terms of use"} to={"/"} />
     </Container>
   );
 };
