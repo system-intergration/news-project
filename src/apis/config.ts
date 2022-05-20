@@ -9,6 +9,11 @@ axiosClient.interceptors.request.use(async (config) => {
   return config;
 });
 
+interface ResponseCustom<T> {
+  data: T;
+  message: string;
+}
+
 axiosClient.interceptors.response.use(
   (response: AxiosResponse<ResponseCustom<any>, any>) => {
     if (response && response.data) {
@@ -28,9 +33,9 @@ axiosClient.interceptors.response.use(
       localStorage.clear();
     } else {
       toast.dismiss();
-      toast.error(error.response?.data.message);
+      toast.error("An error occurred");
     }
-    throw new Error(error.response?.data.message || error.message);
+    throw new Error("An error occurred" || error.message);
   }
 );
 

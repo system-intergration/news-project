@@ -65,7 +65,7 @@ const Main = () => {
       >
         Common articles
       </Typography>
-      {news.isLoading || news.data === undefined ? (
+      {news.isLoading || news.data === undefined || news.isRefetching ? (
         <Loading />
       ) : (
         <News>

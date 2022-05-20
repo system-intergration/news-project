@@ -8,7 +8,7 @@ import { API_KEY } from "../../../constants";
 export const fetchNewsList = (q: string) => {
   return APIInstance.get<News>(
     config,
-    `/api/1/news?apikey=${API_KEY}&q=${q}&language=en`
+    `/news?apikey=${API_KEY}&q=${q}&language=en`
   );
 };
 

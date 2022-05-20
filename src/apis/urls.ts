@@ -1,6 +1,6 @@
 export const devUrl = {
-  news: "https://newsdata.io",
+  news: "https://newsdata.io/api/1",
 };
 export const productionUrl = {
-  news: "/api/news",
+  news: "/api/1",
 };
