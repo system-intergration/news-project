@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -22,10 +22,19 @@ import { auth, signInWithGoogle } from "../../provider/firebase";
 import { useRecoilState } from "recoil";
 import { userState } from "../../recoil/users/state";
 import { FcGoogle } from "react-icons/fc";
+import { searchKeyState } from "../../recoil/searchState/state";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [user, setUser] = useRecoilState(userState);
+  const [keyword, setKeyword] = useState("");
+
+  const handleSearching: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    const { value } = e.target;
+    setKeyword(value);
+  };
+
+  const [searchKey, setSearchKeyState] = useRecoilState(searchKeyState);
 
   const menu = (
     <Menu style={{ borderRadius: 10 }}>
@@ -122,14 +131,37 @@ const Navbar = () => {
         <InputContainer className="input-container">
           <RoundSearch
             className="round-search"
+            value={keyword}
             size="large"
             placeholder="Article name or keywords..."
             prefix={
               <img src={SearchIcon} alt="search-icon" width={20} height={20} />
             }
+            onChange={handleSearching}
+            onKeyUp={(e) => {
+              if (
+                e.key === "Enter" &&
+                keyword.toLocaleLowerCase() !==
+                  searchKey.keyword.toLocaleUpperCase()
+              ) {
+                setSearchKeyState({ keyword: keyword });
+              }
+            }}
           />
         </InputContainer>
-        <RoundButton type="primary">Search</RoundButton>
+        <RoundButton
+          type="primary"
+          onClick={() => {
+            if (
+              keyword.toLocaleLowerCase() !==
+              searchKey.keyword.toLocaleUpperCase()
+            ) {
+              setSearchKeyState({ keyword: keyword });
+            }
+          }}
+        >
+          Search
+        </RoundButton>
         <Dropdown overlay={menu} placement="bottomRight">
           <UserAvatarContainer>
             {user.uid.length !== 0 ? (

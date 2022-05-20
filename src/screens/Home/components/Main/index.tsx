@@ -6,9 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { useFetchNewsList } from "../../../../hooks/news";
 import ArticleComp from "../../../../components/Article";
 import Loading from "../../../../components/Loading";
+import { searchKeyState } from "../../../../recoil/searchState/state";
+import { useRecoilState } from "recoil";
 
 const Main = () => {
-  const news = useFetchNewsList();
+  const [searchKey, setSearchKey] = useRecoilState(searchKeyState);
+  const news = useFetchNewsList(
+    searchKey.keyword.length === 0 ? "all" : searchKey.keyword
+  );
 
   const KEY_WORDS: string[] = [
     "Technology",
@@ -21,24 +26,37 @@ const Main = () => {
     "Beauty",
     "Weather",
     "Stock",
-    "Economic",
-    "Crypto",
-    "Food",
-    "Politic",
-    "Beauty",
+    "Sport",
+    "Human",
     "Weather",
-    "Stock",
+    "Disaster",
+    "Terrorism",
+    "Hollywood",
+    "Sea Game",
   ];
 
   if (news.isError) {
-    return <div>An error occurred</div>;
+    return (
+      <Container>
+        <div style={{ height: "100vh", textAlign: "center" }}>
+          An error occurred
+        </div>
+      </Container>
+    );
   }
-
+  console.log("news: ", news);
   return (
     <Container>
       <div className="tags-list">
         {KEY_WORDS.map((keyword, index) => (
-          <Tag key={index}>{keyword}</Tag>
+          <Tag
+            key={index}
+            onClick={() => {
+              setSearchKey({ keyword });
+            }}
+          >
+            {keyword}
+          </Tag>
         ))}
       </div>
       <Typography
@@ -47,7 +65,7 @@ const Main = () => {
       >
         Common articles
       </Typography>
-      {news.isLoading ? (
+      {news.isLoading || news.data === undefined ? (
         <Loading />
       ) : (
         <News>

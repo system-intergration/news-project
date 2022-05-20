@@ -1,0 +1,3 @@
+interface SearchState {
+  keyword: string;
+}

@@ -5,17 +5,18 @@ import { FETCH_NEWS_LIST } from "../constants";
 import { News } from "../types";
 import { API_KEY } from "../../../constants";
 
-export const fetchNewsList = () => {
+export const fetchNewsList = (q: string) => {
   return APIInstance.get<News>(
     config,
-    `/api/1/news?apikey=${API_KEY}&q=war&language=en`
+    `/api/1/news?apikey=${API_KEY}&q=${q}&language=en`
   );
 };
 
-export const useFetchNewsList = () => {
-  return useQuery<News>([FETCH_NEWS_LIST], () => fetchNewsList(), {
+export const useFetchNewsList = (q: string) => {
+  return useQuery<News>([FETCH_NEWS_LIST, q], () => fetchNewsList(q), {
     keepPreviousData: true,
     refetchOnWindowFocus: true,
     retry: 2,
+    enabled: Boolean(q),
   });
 };

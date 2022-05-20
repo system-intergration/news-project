@@ -36,7 +36,6 @@ const FavoritePage = () => {
   const navigate = useNavigate();
 
   const isLoggedIn = user.uid.length !== 0;
-  console.log("user.uid.length !== 0: ", user.uid.length);
   return (
     <Container>
       <Sidebar />
