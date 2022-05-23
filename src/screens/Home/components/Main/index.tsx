@@ -1,53 +1,53 @@
-import React from "react";
-import styled from "styled-components";
-import { Container, Tag, News } from "./style";
-import { Typography, IconButton } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { useFetchNewsList } from "../../../../hooks/news";
-import ArticleComp from "../../../../components/Article";
-import Loading from "../../../../components/Loading";
-import { searchKeyState } from "../../../../recoil/searchState/state";
-import { useRecoilState } from "recoil";
+import React from 'react';
+import styled from 'styled-components';
+import { Container, Tag, News } from './style';
+import { Typography, IconButton } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { useFetchNewsList } from '../../../../hooks/news';
+import ArticleComp from '../../../../components/Article';
+import Loading from '../../../../components/Loading';
+import { searchKeyState } from '../../../../recoil/searchState/state';
+import { useRecoilState } from 'recoil';
 
 const Main = () => {
   const [searchKey, setSearchKey] = useRecoilState(searchKeyState);
   const news = useFetchNewsList(
-    searchKey.keyword.length === 0 ? "all" : searchKey.keyword
+    searchKey.keyword.length === 0 ? 'all' : searchKey.keyword
   );
 
   const KEY_WORDS: string[] = [
-    "Technology",
-    "Cooking",
-    "Business",
-    "Economic",
-    "Crypto",
-    "Food",
-    "Politic",
-    "Beauty",
-    "Weather",
-    "Stock",
-    "Sport",
-    "Human",
-    "Weather",
-    "Disaster",
-    "Terrorism",
-    "Hollywood",
-    "Sea Game",
+    'Technology',
+    'Cooking',
+    'Business',
+    'Economic',
+    'Crypto',
+    'Food',
+    'Politic',
+    'Beauty',
+    'Weather',
+    'Stock',
+    'Sport',
+    'Human',
+    'Weather',
+    'Disaster',
+    'Terrorism',
+    'Hollywood',
+    'Sea Game',
   ];
 
   if (news.isError) {
     return (
       <Container>
-        <div style={{ height: "100vh", textAlign: "center" }}>
+        <div style={{ height: '100vh', textAlign: 'center' }}>
           An error occurred
         </div>
       </Container>
     );
   }
-  console.log("news: ", news);
+  // console.log("news: ", news);
   return (
     <Container>
-      <div className="tags-list">
+      <div className='tags-list'>
         {KEY_WORDS.map((keyword, index) => (
           <Tag
             key={index}
@@ -60,7 +60,7 @@ const Main = () => {
         ))}
       </div>
       <Typography
-        variant="h3"
+        variant='h3'
         style={{ fontWeight: 500, marginTop: 40, marginBottom: 40 }}
       >
         Common articles
