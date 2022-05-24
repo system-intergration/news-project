@@ -26,7 +26,6 @@ const Main = () => {
     'Stock',
     'Sport',
     'Human',
-    'Weather',
     'Disaster',
     'Terrorism',
     'Hollywood',
@@ -48,7 +47,7 @@ const Main = () => {
         {KEY_WORDS.map((keyword, index) => (
           <Tag
             key={index}
-            className={searchKey.keyword === keyword ? 'btn-primary' : ''}
+            className={searchKey.keyword === keyword ? 'ant-btn-primary' : ''}
             onClick={() => {
               setSearchKey({ keyword });
             }}

@@ -1,4 +1,12 @@
-@import "~antd/dist/antd.css";
+@import '~antd/dist/antd.css';
 
 .App {
+}
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  background-color: #001529 !important;
+  border-color: #001529 !important;
+}
+.ant-btn-primary {
+  border-radius: 10px;
 }
