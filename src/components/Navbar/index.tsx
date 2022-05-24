@@ -1,33 +1,33 @@
-import React, { useCallback, useState } from "react";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import { Button, Dropdown, Menu, Space } from "antd";
-import { FiSettings } from "react-icons/fi";
-import { BsPerson } from "react-icons/bs";
-import { BiLogOutCircle } from "react-icons/bi";
+import React, { useCallback, useState } from 'react';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
+import { Button, Dropdown, Menu, Space } from 'antd';
+import { FiSettings } from 'react-icons/fi';
+import { BsPerson } from 'react-icons/bs';
+import { BiLogOutCircle } from 'react-icons/bi';
 
-import { SearchIcon, DropdownIcon } from "../../assets/icons";
+import { SearchIcon, DropdownIcon } from '../../assets/icons';
 import {
   Container,
   InputContainer,
   RoundSearch,
   UserAvatarContainer,
   RoundButton,
-} from "./style";
-import { useNavigate } from "react-router-dom";
-import { auth, signInWithGoogle } from "../../provider/firebase";
-import { useRecoilState } from "recoil";
-import { userState } from "../../recoil/users/state";
-import { FcGoogle } from "react-icons/fc";
-import { searchKeyState } from "../../recoil/searchState/state";
+} from './style';
+import { useNavigate } from 'react-router-dom';
+import { auth, signInWithGoogle } from '../../provider/firebase';
+import { useRecoilState } from 'recoil';
+import { userState } from '../../recoil/users/state';
+import { FcGoogle } from 'react-icons/fc';
+import { searchKeyState } from '../../recoil/searchState/state';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [user, setUser] = useRecoilState(userState);
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState('');
 
   const handleSearching: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { value } = e.target;
@@ -42,9 +42,9 @@ const Navbar = () => {
         {user.uid.length === 0 ? (
           <div
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
               marginTop: 10,
             }}
             onClick={async () => {
@@ -62,9 +62,9 @@ const Navbar = () => {
         ) : (
           <div
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
             }}
           >
             <div style={{ marginRight: 5 }}>{user.displayName}</div>
@@ -76,9 +76,9 @@ const Navbar = () => {
         <Menu.Item key={2}>
           <div
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
             }}
             onClick={() => {}}
           >
@@ -91,19 +91,20 @@ const Navbar = () => {
         <Menu.Item key={3}>
           <div
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
             }}
             onClick={async () => {
               await auth.signOut();
 
               setUser({
-                uid: "",
-                displayName: "",
-                email: "",
-                phoneNumber: "",
-                photoURL: "",
+                uid: '',
+                displayName: '',
+                email: '',
+                phoneNumber: '',
+                photoURL: '',
+                favorites: [],
               });
             }}
           >
@@ -115,32 +116,32 @@ const Navbar = () => {
     </Menu>
   );
   return (
-    <AppBar position="fixed" color="inherit">
+    <AppBar position='fixed' color='inherit'>
       <Container>
-        <Toolbar variant="dense">
+        <Toolbar variant='dense'>
           <Typography
-            variant="h6"
-            color="inherit"
-            component="div"
-            onClick={() => navigate("/")}
-            style={{ cursor: "pointer" }}
+            variant='h6'
+            color='inherit'
+            component='div'
+            onClick={() => navigate('/')}
+            style={{ cursor: 'pointer' }}
           >
             News
           </Typography>
         </Toolbar>
-        <InputContainer className="input-container">
+        <InputContainer className='input-container'>
           <RoundSearch
-            className="round-search"
+            className='round-search'
             value={keyword}
-            size="large"
-            placeholder="Article name or keywords..."
+            size='large'
+            placeholder='Article name or keywords...'
             prefix={
-              <img src={SearchIcon} alt="search-icon" width={20} height={20} />
+              <img src={SearchIcon} alt='search-icon' width={20} height={20} />
             }
             onChange={handleSearching}
             onKeyUp={(e) => {
               if (
-                e.key === "Enter" &&
+                e.key === 'Enter' &&
                 keyword.toLocaleLowerCase() !==
                   searchKey.keyword.toLocaleUpperCase()
               ) {
@@ -150,7 +151,7 @@ const Navbar = () => {
           />
         </InputContainer>
         <RoundButton
-          type="primary"
+          type='primary'
           onClick={() => {
             if (
               keyword.toLocaleLowerCase() !==
@@ -162,17 +163,17 @@ const Navbar = () => {
         >
           Search
         </RoundButton>
-        <Dropdown overlay={menu} placement="bottomRight">
+        <Dropdown overlay={menu} placement='bottomRight'>
           <UserAvatarContainer>
             {user.uid.length !== 0 ? (
-              <Avatar alt="Rose" src={user.photoURL} />
+              <Avatar alt='Rose' src={user.photoURL} />
             ) : (
-              <RoundButton type="primary">Login</RoundButton>
+              <RoundButton type='primary'>Login</RoundButton>
             )}
-            <IconButton size="small">
+            <IconButton size='small'>
               <img
                 src={DropdownIcon}
-                alt={"dropdown-icon"}
+                alt={'dropdown-icon'}
                 height={15}
                 width={15}
               />
