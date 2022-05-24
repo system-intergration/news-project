@@ -7,7 +7,7 @@ import { useFetchNewsList } from "../../../../hooks/news";
 import ArticleComp from "../../../../components/Article";
 import Loading from "../../../../components/Loading";
 import { searchKeyState } from "../../../../recoil/searchState/state";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 const Main = () => {
   const [searchKey, setSearchKey] = useRecoilState(searchKeyState);
@@ -62,7 +62,9 @@ const Main = () => {
         variant="h3"
         style={{ fontWeight: 500, marginTop: 40, marginBottom: 40 }}
       >
-        Common articles
+        {searchKey.keyword === "all" || searchKey.keyword.length === 0
+          ? "Common articles"
+          : `Search for "${searchKey.keyword}"`}
       </Typography>
       {news.isLoading || news.data === undefined || news.isRefetching ? (
         <Loading />
@@ -71,6 +73,12 @@ const Main = () => {
           {news.data!.results.map((article, index) => (
             <ArticleComp article={article} key={index} />
           ))}
+          {news.data!.results.length === 0 && (
+            <div style={{ textAlign: "center", width: "100%" }}>
+              <img src="https://global.developer.mi.com/assets/img/no-result-icon.b496f066.svg" />
+              <h3 className="mt-3">There's no result</h3>
+            </div>
+          )}
         </News>
       )}
     </Container>
