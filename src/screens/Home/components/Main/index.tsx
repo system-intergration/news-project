@@ -44,7 +44,6 @@ const Main = () => {
       </Container>
     );
   }
-  console.log("news: ", news);
   return (
     <Container>
       <div className="tags-list">
